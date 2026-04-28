@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { getUserProfile } from './api/spotify';
-
 
 export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-
-    if (token) {
-      getUserProfile(token).then(setUser).catch(console.error);
-    }
+    fetch("http://127.0.0.1:5000/me", { credentials: "include" })
+      .then(res => {
+        if (!res.ok) throw new Error("Not authenticated");
+        return res.json();
+      })
+      .then(data => setUser(data))
+      .catch(console.error);
   }, []);
 
   function login() {

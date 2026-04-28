@@ -2,33 +2,35 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import axios from "axios";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "http://127.0.0.1:5173",
+    credentials: true
+}));
+app.use(cookieParser());
 
 const PORT = 5000;
+const tokens = new Map();
 
-// Login route
 app.get("/login", (req, res) => {
     const scope = "user-read-private user-read-email playlist-modify-public";
-
-    const authUrl =
-        "https://accounts.spotify.com/authorize?" +
+    const authUrl = "https://accounts.spotify.com/authorize?" +
         new URLSearchParams({
             response_type: "code",
             client_id: process.env.CLIENT_ID,
             scope,
             redirect_uri: process.env.REDIRECT_URI,
         });
-
     res.redirect(authUrl);
 });
 
-// Callback route
 app.get("/callback", async (req, res) => {
     const code = req.query.code;
+    if (!code) return res.send("No code provided");
 
     try {
         const response = await axios.post(
@@ -41,26 +43,35 @@ app.get("/callback", async (req, res) => {
             {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    Authorization:
-                        "Basic " +
-                        Buffer.from(
-                            process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET
-                        ).toString("base64"),
+                    Authorization: "Basic " + Buffer.from(
+                        process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET
+                    ).toString("base64"),
                 },
             }
         );
 
-        const access_token = response.data.access_token;
+        const accessToken = response.data.access_token;
+        const sessionId = Math.random().toString(36).slice(2);
+        tokens.set(sessionId, accessToken);
 
-        return res.redirect(
-            `http://127.0.0.1:5173/?token=${access_token}`
-        );
-
+        res.cookie("session_id", sessionId, { httpOnly: true, secure: true });
+        res.redirect("http://127.0.0.1:5173/");
     } catch (err) {
-        console.log("FULL ERROR:");
         console.log(err.response?.data || err.message);
-        return res.send("Error logging in");
+        res.send("Error logging in");
     }
+});
+
+app.get("/me", (req, res) => {
+    const sessionId = req.cookies?.session_id;
+    const token = tokens.get(sessionId);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+
+    axios.get("https://api.spotify.com/v1/me", {
+        headers: { Authorization: "Bearer " + token }
+    })
+    .then(r => res.json(r.data))
+    .catch(e => res.status(401).json({ error: e.message }));
 });
 
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
