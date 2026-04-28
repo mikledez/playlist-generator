@@ -17,7 +17,7 @@ const PORT = 5000;
 const tokens = new Map();
 
 app.get("/login", (req, res) => {
-    const scope = "user-read-private user-read-email playlist-modify-public";
+    const scope = "user-read-private user-read-email user-top-read playlist-modify-public";
     const authUrl = "https://accounts.spotify.com/authorize?" +
         new URLSearchParams({
             response_type: "code",
@@ -68,6 +68,18 @@ app.get("/me", (req, res) => {
     if (!token) return res.status(401).json({ error: "Not authenticated" });
 
     axios.get("https://api.spotify.com/v1/me", {
+        headers: { Authorization: "Bearer " + token }
+    })
+    .then(r => res.json(r.data))
+    .catch(e => res.status(401).json({ error: e.message }));
+});
+
+app.get("/top-tracks", (req, res) => {
+    const sessionId = req.cookies?.session_id;
+    const token = tokens.get(sessionId);
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
+
+    axios.get("https://api.spotify.com/v1/me/top/tracks?limit=10", {
         headers: { Authorization: "Bearer " + token }
     })
     .then(r => res.json(r.data))

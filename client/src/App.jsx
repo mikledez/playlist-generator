@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
+import { getTopTracks, getUserProfile } from './api/spotify'
 import './App.css'
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [tracks, setTracks] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/me", { credentials: "include" })
-      .then(res => {
-        if (!res.ok) throw new Error("Not authenticated");
-        return res.json();
+    getUserProfile()
+      .then(data => {
+        setUser(data);
+        return getTopTracks();
       })
-      .then(data => setUser(data))
+      .then(data => setTracks(data.items))
       .catch(console.error);
   }, []);
 
@@ -21,7 +23,15 @@ export default function App() {
   return (
     <div>
       {user ? (
-        <h1>Welcome {user.display_name}</h1>
+        <>
+          <h1>Welcome {user.display_name}</h1>
+          <h2>Top Tracks</h2>
+          <ul>
+            {tracks.map(track => (
+              <li key={track.id}>{track.name} by {track.artists[0].name}</li>
+            ))}
+          </ul>
+        </>
       ) : (
         <button onClick={login}>Login with Spotify</button>
       )}
