@@ -7,6 +7,7 @@ dotenv.config();
 
 import authRoutes from "./routes/auth.js";
 import spotifyRoutes from "./routes/spotify.js";
+import chatRoutes from "./routes/chat.js";
 
 
 const app = express();
@@ -22,5 +23,6 @@ const PORT = 5000;
 
 app.use("/", authRoutes);
 app.use("/spotify", spotifyRoutes);
+app.use("/", chatRoutes);
 
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
