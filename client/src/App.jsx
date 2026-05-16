@@ -31,6 +31,10 @@ export default function App() {
               <li key={track.id}>{track.name} by {track.artists[0].name}</li>
             ))}
           </ul>
+          <form id="chat-form">
+            <input type="text" placeholder="Ask what you want..." />
+            <button type="submit">Send</button>
+          </form>
         </>
       ) : (
         <button onClick={login}>Login with Spotify</button>
