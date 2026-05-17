@@ -13,6 +13,7 @@ router.get("/login", (req, res) => {
             client_id: process.env.CLIENT_ID,
             scope: SCOPES,
             redirect_uri: process.env.REDIRECT_URI,
+            show_dialog: true,
         });
     res.redirect(authUrl);
 });
@@ -36,6 +37,13 @@ router.get("/callback", async (req, res) => {
         console.log(err.response?.data || err.message);
         res.send("Error logging in");
     }
+});
+
+router.post("/logout", (req, res) => {
+    const sessionId = req.cookies?.session_id;
+    if (sessionId) session.removeSession(sessionId);
+    res.clearCookie("session_id");
+    res.json({ success: true });
 });
 
 export default router;

@@ -7,6 +7,7 @@ export default function App() {
   const [tracks, setTracks] = useState([]);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getUserProfile()
@@ -15,7 +16,8 @@ export default function App() {
         return getTopTracks();
       })
       .then(data => setTracks(data.items))
-      .catch(console.error);
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
   }, []);
 
   function login() {
@@ -44,6 +46,8 @@ export default function App() {
     }
   }
 
+  if (loading) return null;
+
   return (
     <div>
       {user ? (
@@ -58,8 +62,8 @@ export default function App() {
             )}
             <span>{user.display_name}</span>
             <div className="logout-container">
-              <button className="logout-btn" onClick={() => {
-                document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              <button className="logout-btn" onClick={async () => {
+                await fetch("http://127.0.0.1:5000/logout", { method: "POST", credentials: "include" });
                 setUser(null);
                 setTracks([]);
                 setMessages([]);
