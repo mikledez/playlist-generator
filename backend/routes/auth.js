@@ -30,7 +30,7 @@ router.get("/callback", async (req, res) => {
         );
 
         const sessionId = session.createSession(accessToken);
-        res.cookie("session_id", sessionId, { httpOnly: true, secure: true });
+        res.cookie("session_id", sessionId, { httpOnly: true });
         res.redirect("http://127.0.0.1:5173/");
     } catch (err) {
         console.log(err.response?.data || err.message);

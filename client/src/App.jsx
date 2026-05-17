@@ -48,7 +48,24 @@ export default function App() {
     <div>
       {user ? (
         <>
-          <h1>Welcome {user.display_name}</h1>
+          <div className="navBar">
+            {user.images?.[0] && (
+              <img
+                src={user.images[0].url}
+                alt={user.display_name}
+                className="user-image"
+              />
+            )}
+            <span>{user.display_name}</span>
+            <div className="logout-container">
+              <button className="logout-btn" onClick={() => {
+                document.cookie = "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                setUser(null);
+                setTracks([]);
+                setMessages([]);
+              }}>Logout</button>
+            </div>
+          </div>
           <h2>Top Tracks</h2>
           <ul>
             {tracks.map(track => (
@@ -75,7 +92,15 @@ export default function App() {
           </div>
         </>
       ) : (
-        <button onClick={login}>Login with Spotify</button>
+        <div className="landing">
+          <div className="landing-header">
+            <h1>Welcome to Zeltune</h1>
+            <p>A Spotify playlist generator</p>
+          </div>
+          <div className="landing-body">
+            <button className="login-btn" onClick={login}>Login with Spotify</button>
+          </div>
+        </div>
       )}
     </div>
   );
