@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getTopTracks, getUserProfile } from './api/spotify'
+
+import Footer from "./components/Footer"
 import './App.css'
 
 export default function App() {
@@ -80,7 +82,7 @@ export default function App() {
           <div className="chat-container">
             <div className="chat-messages">
               {messages.map((msg, i) => (
-                <div key={i} className={`message ${msg.role}`}>
+                <div key={i} className={`message-${msg.role}`}>
                   {msg.content}
                 </div>
               ))}
@@ -104,6 +106,7 @@ export default function App() {
           <div className="landing-body">
             <button className="login-btn" onClick={login}>Login with Spotify</button>
           </div>
+          <Footer />
         </div>
       )}
     </div>
