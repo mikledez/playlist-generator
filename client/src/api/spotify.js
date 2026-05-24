@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:5000/spotify";
+const API_BASE = "http://127.0.0.1:3001/spotify";
 
 export async function getUserProfile() {
     const res = await fetch(`${API_BASE}/me`, { credentials: "include" });

@@ -3,7 +3,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import dotenv from "dotenv";
-dotenv.config();
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__dirname, ".env") });
 
 import authRoutes from "./routes/auth.js";
 import spotifyRoutes from "./routes/spotify.js";
@@ -19,7 +22,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
-const PORT = 5000;
+const PORT = 3001;
 
 app.use("/", authRoutes);
 app.use("/spotify", spotifyRoutes);
