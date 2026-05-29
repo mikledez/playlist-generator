@@ -1,4 +1,4 @@
-import githubLogo from '../assets/github-logo.svg'
+import githubLogo from '../assets/github_logo.svg'
 
 export default function Footer() {
     return (
