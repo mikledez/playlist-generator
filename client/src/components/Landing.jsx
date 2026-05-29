@@ -23,7 +23,6 @@ export default function Landing({ login }) {
           <button className="hero-cta" onClick={login}>Get Started with Spotify</button>
         </div>
         <div className="hero-visual">
-          <div className="hero-placeholder">
             <div className="hero-logo-wrapper">
               <div className="hero-logo-glow"></div>
               <img src={logo} className="hero-logo" width="200" />
@@ -31,7 +30,6 @@ export default function Landing({ login }) {
             <div className="hero-orb hero-orb-1"></div>
             <div className="hero-orb hero-orb-2"></div>
             <div className="hero-orb hero-orb-3"></div>
-          </div>
         </div>
       </section>
 
