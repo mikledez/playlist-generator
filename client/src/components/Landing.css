@@ -1,10 +1,8 @@
-/* ── Landing Page ── */
 .landing {
   min-height: 100vh;
   background: #0a0614;
 }
 
-/* Navigation */
 .landing-nav {
   display: flex;
   align-items: center;
@@ -43,7 +41,6 @@
   transform: scale(1.02);
 }
 
-/* Hero */
 .hero {
   display: flex;
   align-items: center;
@@ -198,7 +195,6 @@
   50% { transform: translate(15px, -15px) scale(1.2); opacity: 0.6; }
 }
 
-/* Feature sections */
 .feature-section {
   padding: 80px 0;
 }
@@ -248,7 +244,6 @@
   color: #a78bfa;
 }
 
-/* Preview / Chat mockup */
 .preview-section {
   padding: 100px 48px;
   max-width: 1100px;
@@ -340,7 +335,6 @@
   font-size: 12px;
 }
 
-/* CTA */
 .cta-section {
   text-align: center;
   padding: 100px 48px 140px;
@@ -359,7 +353,6 @@
   font-size: 18px;
 }
 
-/* ── Responsive ── */
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
@@ -408,89 +401,4 @@
   .cta-section h2 {
     font-size: 28px;
   }
-}
-
-.navBar {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 10px 20px;
-    background: #221133;
-}
-
-.user-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.logout-container {
-    margin-left: auto;
-}
-
-.logout-btn {
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: 100vh;
-}
-
-.chat-messages {
-    width: 80%;
-    max-width: 600px;
-    height: 400px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    overflow-y: auto;
-}
-
-.message-user {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 12px;
-}
-
-.footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 24px;
-    background: #221133;
-    color: #c9a8e0;
-    font-size: 14px;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.footer-content a {
-    display: flex;
-    align-items: center;
-    transition: opacity 0.2s;
-}
-
-.footer-content a:hover {
-    opacity: 0.7;
-}
-
-.github-icon {
-    height: 24px;
-    width: 24px;
-    filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(690%) hue-rotate(225deg) brightness(89%) contrast(89%);
 }

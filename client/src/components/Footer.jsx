@@ -1,4 +1,5 @@
 import githubLogo from '../assets/github_logo.svg'
+import "./Footer.css"
 
 export default function Footer() {
     return (
